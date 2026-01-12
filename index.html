@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MetaTube</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <script>
+      // Polyfill for Electron environment compatibility
+      window.process = window.process || {};
+      window.process.env = window.process.env || {};
+      
+      // Tailwind config for custom shadows and animations
+      tailwind.config = {
+        darkMode: 'class', // Enables dark mode via class
+        theme: {
+          extend: {
+            colors: {
+              accent: 'var(--accent)',
+              'accent-glow': 'var(--accent-glow)',
+            },
+            boxShadow: {
+              'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+              'glass-light': '0 8px 32px 0 rgba(100, 100, 100, 0.2)',
+              'glow': '0 0 20px var(--accent-glow)',
+              'super-glow': '0 0 40px var(--accent-glow)',
+              'inner-light': 'inset 0 0 20px rgba(255, 255, 255, 0.05)',
+            },
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'spin-slow': 'spin 12s linear infinite',
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'expand-player': 'expandPlayer 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+              'collapse-player': 'collapsePlayer 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+              'slide-in-left': 'slideInLeft 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+              'slide-in-right': 'slideInRight 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+              'slide-out-right': 'slideOutRight 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+              'zoom-in': 'zoomIn 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+              'pop-in': 'popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'stagger-enter': 'staggerEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'stagger-exit': 'staggerExit 0.3s ease-in forwards',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              fadeIn: {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              expandPlayer: {
+                '0%': { 
+                  opacity: '0', 
+                  transform: 'translateY(100%) scale(0.8)',
+                  borderRadius: '4rem'
+                },
+                '100%': { 
+                  opacity: '1', 
+                  transform: 'translateY(0) scale(1)',
+                  borderRadius: '3rem' // Mantieni rounded sul desktop
+                },
+              },
+              collapsePlayer: {
+                '0%': { 
+                  opacity: '1', 
+                  transform: 'translateY(0) scale(1)',
+                  borderRadius: '3rem'
+                },
+                '100%': { 
+                  opacity: '0', 
+                  transform: 'translateY(100%) scale(0.8)',
+                  borderRadius: '4rem'
+                },
+              },
+              slideInLeft: {
+                '0%': { opacity: '0', transform: 'translateX(-50px) scale(0.9)' },
+                '100%': { opacity: '1', transform: 'translateX(0) scale(1)' },
+              },
+              slideInRight: {
+                '0%': { opacity: '0', transform: 'translateX(100%)' },
+                '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+              slideOutRight: {
+                '0%': { opacity: '1', transform: 'translateX(0)' },
+                '100%': { opacity: '0', transform: 'translateX(100%)' },
+              },
+              zoomIn: {
+                '0%': { opacity: '0', transform: 'scale(0.8)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              popIn: {
+                '0%': { opacity: '0', transform: 'scale(0.95) translateY(20px)' },
+                '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+              },
+              staggerEnter: {
+                '0%': { opacity: '0', transform: 'translateX(-20px) scale(0.8)' },
+                '100%': { opacity: '1', transform: 'translateX(0) scale(1)' },
+              },
+              staggerExit: {
+                '0%': { opacity: '1', transform: 'translateX(0) scale(1)' },
+                '100%': { opacity: '0', transform: 'translateX(20px) scale(0.8)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --accent: #6366f1;
+        --accent-glow: rgba(99, 102, 241, 0.5);
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-color, #000);
+        color: var(--text-color, white);
+        overflow: hidden;
+        transition: background-color 0.5s ease, color 0.5s ease;
+      }
+      
+      /* Glassmorphism Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(128, 128, 128, 0.2); 
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent); 
+        box-shadow: 0 0 10px var(--accent-glow);
+      }
+
+      /* Noise Texture Overlay */
+      .noise-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 50;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "electron": "https://esm.sh/electron@^39.2.7",
+    "path": "https://esm.sh/path@^0.12.7",
+    "url": "https://esm.sh/url@^0.11.4",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "vite": "https://esm.sh/vite@^7.3.0",
+    "buffer": "https://esm.sh/buffer@^6.0.3",
+    "music-metadata-browser": "https://esm.sh/music-metadata-browser@^2.5.11"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <div class="noise-overlay"></div>
+    <script type="module" src="./index.tsx"></script>
+  </body>
+</html>

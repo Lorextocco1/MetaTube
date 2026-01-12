@@ -1,0 +1,8 @@
+{
+  "name": "Nebula Music Player",
+  "description": "A next-generation AI-powered music player that generates playlists based on your mood using Gemini.",
+  "requestFramePermissions": [],
+  "permissions": [
+    "filesystem"
+  ]
+}
