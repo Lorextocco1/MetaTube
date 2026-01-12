@@ -23,10 +23,12 @@ Il player è strutturato per gestire cartelle come playlist:
 . Consiglio dell'Autore: Per un ordine mentale superiore, suggerisco di creare una playlist per ogni YouTuber/Artista (es. una cartella dedicata a Severed Soul).
 
 🌈 Personalizzazione Estrema
+
 Un sistema di temi dinamici che offre 11 varianti di colore che si adattano perfettamente sia alla modalità Chiara che a quella Scura:
 Blu, Verde, Rosso, Dorato, Celeste, Viola, Rosso Sangue, Verde Erba, Blu Acqua, Fucsia, Arancione e Argentato.
 _________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 👨‍💻 Note per gli Sviluppatori (Open Source)
+
 Considero chiunque metta mano a questo codice un mio collega a tutti gli effetti. Il codice sorgente è disponibile interamente nella Home di questa repository affinché possiate ingrandirlo, rimpicciolirlo o adattarlo secondo il vostro gusto.
 
 [!IMPORTANT] Condizioni per il riutilizzo: Siete liberi di utilizzare e modificare il codice, ma chiedo gentilmente di:
@@ -34,6 +36,7 @@ Considero chiunque metta mano a questo codice un mio collega a tutti gli effetti
 . Citarmi nella vostra repository GitHub quando pubblicherete la vostra versione derivata.
 _________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 🚀 Distribuzione e Filosofia
+
 In linea con il mio attuale stile di programmazione, MetaTube è distribuito come AppImage a livello unico (senza sottocartelle) per garantire semplicità e velocità di esecuzione su sistemi Linux. Il progetto è compattato utilizzando il mio sistema di file .txt configurati come .sh.
 
 Troverete il pacchetto pronto all'uso nella sezione Releases.
